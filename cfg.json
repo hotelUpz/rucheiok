@@ -1,0 +1,48 @@
+{
+    "app": {
+        "name": "Rucheiok Screener",
+        "cache_flush_sec": 300
+    },
+    "log": {
+        "debug": true,
+        "info": true,
+        "warning": true,
+        "error": true,
+        "max_lines": 1500,
+        "timezone": "Europe/Kyiv"
+    },
+    "tg": {
+        "enable": true,
+        "token": "YOUR_BOT_TOKEN",
+        "chat_id": "YOUR_CHAT_ID"
+    },
+    "black_list": ["RIVERUSDT", "SIRENUSDT", "OGUSDT"],
+    "pattern": {
+        "phemex": {
+            "name": "Rucheiok pattern",
+            "enable": true,
+            "depth": 8,
+            "min_first_row_usdt_notional": 500,
+            "header": {
+                "roc_window": 3,
+                "max_one_roc_pct": 0.5
+            },
+            "body": {
+                "roc_sma_window": 5
+            },
+            "bottom": {
+                "min_spread_between_two_row_pct": 0.15,
+                "min_spread_between_three_row_pct": 0.2                
+            },
+            "header_to_bottom_desired_rate": 6,
+            "max_bid_ask_distance_rate": 0.5,
+            "pattern_ttl_sec": 2
+        },
+        "binance": {
+            "enable": true,
+            "min_price_spread_pct": 0.1,
+            "update_prices_sec": 1.5,
+            "spread_ttl_sec": 2
+        }
+    }
+}

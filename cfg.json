@@ -16,7 +16,7 @@
         "token": "YOUR_BOT_TOKEN",
         "chat_id": "YOUR_CHAT_ID"
     },
-    "black_list": ["RIVERUSDT", "SIRENUSDT", "OGUSDT"],
+    "black_list": ["RIVERUSDT", "SIRENUSDT", "0GUSDT", "OGUSDT"],
     "pattern": {
         "phemex": {
             "name": "Rucheiok pattern",

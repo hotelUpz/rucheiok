@@ -1,2 +1,2 @@
-# git remote add origin git@github.com:hotelUpz/rucheiok.git
-# git remote set-url origin git@github.com:hotelUpz/rucheiok.git
+# git remote add origin git@github.com:hotelUpz/rucheiok3.git
+# git remote set-url origin git@github.com:hotelUpz/rucheiok3.git

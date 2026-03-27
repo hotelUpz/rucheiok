@@ -24,7 +24,9 @@ class ScreenerBot:
         self.binance_ticker_api = BinanceTickerAPI()
         self.phemex_ticker_api = PhemexTickerAPI()
 
-        self.black_list = self.cfg.get("black_list", [])
+        # Нормализуем блек-лист для защиты от случайных пробелов и проблем с регистром
+        raw_black_list = self.cfg.get("black_list", [])
+        self.black_list = {str(s).strip().upper() for s in raw_black_list if s and s.strip()}
         
         tg_cfg = cfg.get("tg", {})
         tg_enabled = tg_cfg.get("enable", False)
@@ -112,6 +114,11 @@ class ScreenerBot:
 
     async def _process_depth(self, snap: DepthTop):
         symbol = snap.symbol
+
+        # --- ДОБАВЛЯЕМ ЭТУ ПРОВЕРКУ ---
+        if symbol in self.black_list:
+            return
+
         now = time.time()
         
         if symbol in self.cache:

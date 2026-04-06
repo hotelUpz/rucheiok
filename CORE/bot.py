@@ -11,10 +11,10 @@ from API.PHEMEX.stakan import PhemexStakanStream, DepthTop
 from API.PHEMEX.ticker import PhemexTickerAPI
 from API.PHEMEX.funding import PhemexFunding
 from API.BINANCE.ticker import BinanceTickerAPI
-from API.BINANCE.funding import BinanceFunding  # Добавлено
+from API.BINANCE.funding import BinanceFunding
 from CORE.stakan_pattern import StakanPattern
-from CORE.funding_pattern1 import FundingFilter1
-from CORE.funding_pattern2 import FundingFilter2  # Добавлено
+from CORE.funding_manager import FundingManager
+
 from CORE.oil_pattern import OpenInterestDefender
 from tg_sender import TelegramSender
 from c_log import UnifiedLogger
@@ -47,9 +47,8 @@ class ScreenerBot:
         
         self.pattern_engine = StakanPattern(cfg["pattern"]["phemex"])
         
-        # Инициализация всех фильтров
-        self.funding_filter1 = FundingFilter1(cfg["pattern"]["funding_pattern1"], self.funding_api)
-        self.funding_filter2 = FundingFilter2(cfg["pattern"]["funding_pattern2"], self.funding_api, self.binance_funding_api)
+        # Единый менеджер фандингов
+        self.funding_manager = FundingManager(cfg["pattern"], self.funding_api, self.binance_funding_api)
         self.oli_defender = OpenInterestDefender(cfg["pattern"]["oil"])
         
         self.funding1_enabled = cfg["pattern"]["funding_pattern1"]["enable"]
@@ -80,8 +79,7 @@ class ScreenerBot:
     async def aclose(self):
         if self._stream:
             self._stream.stop()
-        if self.funding1_enabled: self.funding_filter1.stop()
-        if self.funding2_enabled: self.funding_filter2.stop()
+        self.funding_manager.stop()
             
         await self.phemex_sym_api.aclose()
         await self.binance_ticker_api.aclose()
@@ -170,19 +168,19 @@ class ScreenerBot:
             
             # 3. ФИЛЬТРЫ ФАНДИНГА
             funding1 = "OFF"
-            if self.funding1_enabled:
-                if not self.funding_filter1.is_trade_allowed(symbol):
+            if self.funding_manager.filter1.enable:
+                if not self.funding_manager.filter1.is_allowed(symbol):
                     logger.debug(f"[{symbol}] Отбраковано: Блокировка Funding 1 (Phemex).")
                     return 
-                rate = self.funding_filter1.last_funding_rates.get(symbol)
-                funding1 = f"{round(rate * 100, 4)}%" if rate is not None else "NONE"             
+                phemex_info = self.funding_manager.phemex_cache.get(symbol)
+                funding1 = f"{round(phemex_info.funding_rate * 100, 4)}%" if phemex_info else "NONE"             
 
             diff_funding2 = "OFF" 
-            if self.funding2_enabled:
-                if not self.funding_filter2.is_trade_allowed(symbol):
+            if self.funding_manager.filter2.enable:
+                if not self.funding_manager.filter2.is_allowed(symbol):
                     logger.debug(f"[{symbol}] Отбраковано: Блокировка Funding 2 (Diff Binance/Phemex).")
                     return
-                diff_val = self.funding_filter2.last_diffs.get(symbol)
+                diff_val = self.funding_manager.last_diffs.get(symbol)
                 diff_funding2 = f"{round(diff_val * 100, 4)}%" if diff_val is not None else "NONE"
 
             # 4. TTL ВЫДЕРЖКА СИГНАЛОВ
@@ -256,13 +254,6 @@ class ScreenerBot:
     async def _on_depth_received(self, snap: DepthTop, sym_info: SymbolInfo):
         asyncio.create_task(self._process_signal(snap, sym_info))
 
-    async def run_funding_filters(self):
-        if self.funding1_enabled:
-            asyncio.create_task(self.funding_filter1.run())
-        if self.funding2_enabled:
-            asyncio.create_task(self.funding_filter2.run())
-        await asyncio.sleep(1)
-
     async def run(self):
         logger.info("Скринер запущен. Получение символов Phemex...")
         symbols_info = await self.phemex_sym_api.get_all(quote="USDT", only_active=True)
@@ -279,7 +270,9 @@ class ScreenerBot:
         logger.info(start_msg)
 
         await self.update_prices_cache()
-        await self.run_funding_filters()
+
+        asyncio.create_task(self.funding_manager.run())
+        await asyncio.sleep(1)
 
         self._stream = PhemexStakanStream(
             symbols=symbols,

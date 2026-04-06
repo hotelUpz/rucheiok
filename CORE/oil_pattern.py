@@ -67,7 +67,7 @@ class OpenInterestDefender:
         else:
             order_price = price * (1 + self.indentation_pct / 100.0)
             side = "Sell"
-
+            
         phemex_pos_side = self.pos_side.capitalize()
         order_price = round_step(order_price, tick_size)
 
@@ -84,6 +84,8 @@ class OpenInterestDefender:
         if qty <= 0:
             logger.warning(f"[{symbol}] Пропуск: некорректный qty {qty}")
             return "ERR_BAD_QTY"
+
+        logger.debug(f"[{symbol}] OIL Подготовка ордера: side={side}, pos_side={phemex_pos_side}, qty={qty}, price={order_price}")
 
         try:
             resp = await self.client.place_order(symbol, side, qty, order_price, phemex_pos_side)

@@ -151,26 +151,28 @@ class ScreenerBot:
             asks_sliced = snap.asks[:self.target_depth]
 
             # 1. ПАТТЕРН СТАКАНА
-            signal = self.pattern_engine.analyze(bids_sliced, asks_sliced)
+            signal = self.pattern_engine.analyze(symbol, bids_sliced, asks_sliced)
             if not signal:
                 self._pattern_first_seen.pop(symbol, None)
                 self._spread_first_seen.pop(symbol, None)
                 return
 
-            logger.debug(f"[{symbol}] 🟢 Найден паттерн {signal['side']}! Проверяем фильтры...")
+            logger.debug(f"[{symbol}] 🟢 Найден паттерн {signal['side']}! Переход к ценовому спреду...")
 
             # 2. ФИЛЬТР СПРЕДА ЦЕН
             binance_check = await self.check_binance_filter(symbol, signal["side"])
             if not binance_check:
-                logger.debug(f"[{symbol}] Отбраковано: Не прошел фильтр ценового спреда.")
+                logger.debug(f"[{symbol}] 🔴 Отбраковано: Не прошел фильтр ценового спреда (Binance vs Phemex).")
                 self._spread_first_seen.pop(symbol, None)
                 return
             
+            logger.debug(f"[{symbol}] ✅ Спред пройден. Переход к фильтрам фандинга...")
+
             # 3. ФИЛЬТРЫ ФАНДИНГА
             funding1 = "OFF"
             if self.funding_manager.filter1.enable:
                 if not self.funding_manager.filter1.is_allowed(symbol):
-                    logger.debug(f"[{symbol}] Отбраковано: Блокировка Funding 1 (Phemex).")
+                    logger.debug(f"[{symbol}] 🔴 Отбраковано: Блокировка Funding 1 (Phemex).")
                     return 
                 phemex_info = self.funding_manager.phemex_cache.get(symbol)
                 funding1 = f"{round(phemex_info.funding_rate * 100, 4)}%" if phemex_info else "NONE"             
@@ -178,22 +180,24 @@ class ScreenerBot:
             diff_funding2 = "OFF" 
             if self.funding_manager.filter2.enable:
                 if not self.funding_manager.filter2.is_allowed(symbol):
-                    logger.debug(f"[{symbol}] Отбраковано: Блокировка Funding 2 (Diff Binance/Phemex).")
+                    logger.debug(f"[{symbol}] 🔴 Отбраковано: Блокировка Funding 2 (Diff Binance/Phemex).")
                     return
                 diff_val = self.funding_manager.last_diffs.get(symbol)
                 diff_funding2 = f"{round(diff_val * 100, 4)}%" if diff_val is not None else "NONE"
+
+            logger.debug(f"[{symbol}] ✅ Фандинги пройдены. Проверка TTL...")
 
             # 4. TTL ВЫДЕРЖКА СИГНАЛОВ
             if self.pattern_ttl > 0:
                 first_seen_p = self._pattern_first_seen.setdefault(symbol, now)
                 if now - first_seen_p < self.pattern_ttl:
-                    logger.debug(f"[{symbol}] Паттерн настаивается (TTL)...")
+                    logger.debug(f"[{symbol}] ⏳ Паттерн настаивается (TTL {self.pattern_ttl}с)...")
                     return 
 
             if self.spread_ttl > 0:
                 first_seen_s = self._spread_first_seen.setdefault(symbol, now)
                 if now - first_seen_s < self.spread_ttl:
-                    logger.debug(f"[{symbol}] Спред настаивается (TTL)...")
+                    logger.debug(f"[{symbol}] ⏳ Спред настаивается (TTL {self.spread_ttl}с)...")
                     return 
                 
             # 5. OI DEFENDER (OIL)
@@ -201,7 +205,9 @@ class ScreenerBot:
                 oil_val = "OFF"
             else:
                 improve_price = (bids_sliced[0][0] + asks_sliced[0][0]) / 2
-                logger.debug(f"[{symbol}] Пробиваем OIL на цене {improve_price}...")
+                logger.debug(f"[{symbol}] 🕵️‍♂️ Запуск пробива OIL на цене {improve_price}...")
+                
+                # ... (остальной код OIL остается без изменений)
                 oil_raw = await self.oli_defender.is_oil(
                     symbol=symbol,
                     price=improve_price,

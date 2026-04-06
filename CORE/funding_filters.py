@@ -11,6 +11,8 @@ if TYPE_CHECKING:
 
 logger = UnifiedLogger("bot")
 
+BUFFER_TIME = -10.0
+
 class FundingFilter1:
     def __init__(self, cfg: dict[str, Any]):
         self.enable: bool = cfg.get("enable", False)
@@ -29,9 +31,10 @@ class FundingFilter1:
         for sym, info in phemex_cache.items():
             time_left_sec = (info.next_funding_time_ms - now_ms) / 1000.0
             
-            if 0 < time_left_sec <= self.skip_sec:
+            if BUFFER_TIME <= time_left_sec <= self.skip_sec:
                 if abs(info.funding_rate) >= self.threshold:
                     current_blocked.add(sym)
+                    logger.debug(f"[{sym}] Фандинг 1 триггер: rate={info.funding_rate*100}%, time_left={time_left_sec:.1f}s")
         
         self.blocked_symbols = current_blocked
         
@@ -74,9 +77,10 @@ class FundingFilter2:
             time_left_b = (b_info.next_funding_time_ms - now_ms) / 1000.0
             min_time_left = min(time_left_p, time_left_b)
             
-            if 0 < min_time_left <= self.skip_sec:
+            if BUFFER_TIME <= min_time_left <= self.skip_sec:
                 if diff >= self.diff_threshold:
                     current_blocked.add(sym)
+                    logger.debug(f"[{sym}] Фандинг 2 (Diff) триггер: diff={diff*100}%, min_time_left={min_time_left:.1f}s")
         
         self.blocked_symbols = current_blocked
         

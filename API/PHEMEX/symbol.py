@@ -18,6 +18,9 @@ class SymbolInfo:
     symbol: str
     status: str
     quote: str
+    tick_size: Optional[float]
+    lot_size: Optional[float]
+    max_leverage: Optional[float]
 
 
 class PhemexSymbols:
@@ -47,8 +50,15 @@ class PhemexSymbols:
         async with self._session_lock:
             if self._session is not None and not self._session.closed:
                 return self._session
-            connector = aiohttp.TCPConnector(limit=50, ttl_dns_cache=300, enable_cleanup_closed=True)
-            self._session = aiohttp.ClientSession(timeout=self._timeout, connector=connector)
+            connector = aiohttp.TCPConnector(
+                limit=50,
+                ttl_dns_cache=300,
+                enable_cleanup_closed=True,
+            )
+            self._session = aiohttp.ClientSession(
+                timeout=self._timeout,
+                connector=connector,
+            )
             return self._session
 
     async def aclose(self) -> None:
@@ -62,6 +72,7 @@ class PhemexSymbols:
     async def _get_json(self, path: str) -> Dict[str, Any]:
         url = f"{self.BASE_URL}{path}"
         last_err: Optional[Exception] = None
+
         for attempt in range(1, self._retries + 1):
             try:
                 session = await self._get_session()
@@ -69,24 +80,40 @@ class PhemexSymbols:
                     text = await resp.text()
                     if resp.status != 200:
                         raise RuntimeError(f"HTTP {resp.status}: {text}")
+
                     data = await resp.json()
                     if not isinstance(data, dict):
                         raise RuntimeError(f"Bad JSON root: {type(data)}")
                     return data
+
             except Exception as e:
                 last_err = e
                 s = (str(e) or "").lower()
-                if "session is closed" in s or "connector is closed" in s or "clientconnectorerror" in s:
+
+                if (
+                    "session is closed" in s
+                    or "connector is closed" in s
+                    or "clientconnectorerror" in s
+                ):
                     self._session = None
+
                 if attempt < self._retries:
                     await asyncio.sleep(0.4 * attempt)
                 else:
                     break
+
         raise RuntimeError(f"Phemex symbols failed: {path} err={last_err}")
 
     @staticmethod
     def _norm_quote(v: Any) -> str:
         return (str(v) if v is not None else "").upper().strip()
+
+    @staticmethod
+    def _to_float(v: Any, default: float = None) -> float:
+        try:
+            return float(v)
+        except (ValueError, TypeError):
+            return default
 
     @staticmethod
     def _is_active_status(status: str) -> bool:
@@ -110,7 +137,25 @@ class PhemexSymbols:
             return None
 
         status = str(obj.get("status") or obj.get("state") or obj.get("symbolStatus") or "Listed")
-        return SymbolInfo(symbol=sym_s.upper(), status=status, quote=q)
+
+        # ВАЖНО:
+        # Не подменяем tickSize через priceScale и lotSize через ratioScale.
+        # Это разные сущности.
+        tick_size = self._to_float(obj.get("tickSize"))
+        lot_size = self._to_float(obj.get("qtyStepSize"))
+        max_lvg = self._to_float(
+            obj.get("limitOrderMaxLeverage") or obj.get("maxLeverage"),
+            20,
+        )
+
+        return SymbolInfo(
+            symbol=sym_s.upper(),
+            status=status,
+            quote=q,
+            tick_size=tick_size,
+            lot_size=lot_size,
+            max_leverage=max_lvg,
+        )
 
     async def get_all(self, quote: str = "USDT", only_active: bool = True) -> List[SymbolInfo]:
         data = await self._get_json("/public/products")
@@ -121,6 +166,7 @@ class PhemexSymbols:
 
         arr = root.get("perpProductsV2") or root.get("perpProducts") or []
         out: List[SymbolInfo] = []
+
         if isinstance(arr, list):
             for it in arr:
                 if isinstance(it, dict):
@@ -143,19 +189,20 @@ class PhemexSymbols:
             if s.symbol not in seen:
                 seen.add(s.symbol)
                 uniq.append(s)
+
         return uniq
 
 
-# # ----------------------------
-# # SELF TEST
-# # ----------------------------
-# if __name__ == "__main__":
-#     async def _main():
-#         api = PhemexSymbols()
-#         rows = await api.get_all()
-#         print(f"Symbols: {len(rows)}")
-#         for r in rows[:20]:
-#             print(r)
-#         await api.aclose()
+# ----------------------------
+# SELF TEST
+# ----------------------------
+if __name__ == "__main__":
+    async def _main():
+        api = PhemexSymbols()
+        rows = await api.get_all()
+        print(f"Symbols: {len(rows)}")
+        for r in rows[:20]:
+            print(r)
+        await api.aclose()
 
-#     asyncio.run(_main())
+    asyncio.run(_main())

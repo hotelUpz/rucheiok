@@ -43,6 +43,25 @@
             "min_price_spread_pct": 0.1,
             "update_prices_sec": 1.5,
             "spread_ttl_sec": 2
+        },
+        "oil": {
+            "enable": true,
+            "pos_side": "LONG",
+            "leverage": 10,
+            "margin_amount": 3.5,
+            "order_indentation_pct": 25
+        },
+        "funding_pattern1": {
+            "enable": true,
+            "check_interval_sec": 60,
+            "skip_before_counter_sec": 1800,
+            "threshold_pct": 2.0
+        },
+        "funding_pattern2": {
+            "enable": true,
+            "check_interval_sec": 60,
+            "skip_before_counter_sec": 1800,
+            "diff_threshold_pct": 0.05
         }
     }
 }

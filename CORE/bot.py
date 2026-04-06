@@ -11,8 +11,10 @@ from API.PHEMEX.stakan import PhemexStakanStream, DepthTop
 from API.PHEMEX.ticker import PhemexTickerAPI
 from API.PHEMEX.funding import PhemexFunding
 from API.BINANCE.ticker import BinanceTickerAPI
+from API.BINANCE.funding import BinanceFunding  # Добавлено
 from CORE.stakan_pattern import StakanPattern
 from CORE.funding_pattern1 import FundingFilter1
+from CORE.funding_pattern2 import FundingFilter2  # Добавлено
 from CORE.oil_pattern import OpenInterestDefender
 from tg_sender import TelegramSender
 from c_log import UnifiedLogger
@@ -30,8 +32,8 @@ class ScreenerBot:
         self.phemex_ticker_api = PhemexTickerAPI()
 
         self.funding_api = PhemexFunding()
+        self.binance_funding_api = BinanceFunding()
 
-        # Нормализуем блек-лист для защиты от случайных пробелов и проблем с регистром
         raw_black_list = self.cfg.get("black_list", [])
         self.black_list = {str(s).strip().upper() for s in raw_black_list if s and s.strip()}
         
@@ -44,16 +46,20 @@ class ScreenerBot:
         self.tg = TelegramSender(token, chat_id) if tg_enabled else None
         
         self.pattern_engine = StakanPattern(cfg["pattern"]["phemex"])
+        
+        # Инициализация всех фильтров
         self.funding_filter1 = FundingFilter1(cfg["pattern"]["funding_pattern1"], self.funding_api)
+        self.funding_filter2 = FundingFilter2(cfg["pattern"]["funding_pattern2"], self.funding_api, self.binance_funding_api)
         self.oli_defender = OpenInterestDefender(cfg["pattern"]["oil"])
+        
         self.funding1_enabled = cfg["pattern"]["funding_pattern1"]["enable"]
+        self.funding2_enabled = cfg["pattern"]["funding_pattern2"]["enable"]
         self.oli_enabled = cfg["pattern"]["oil"]["enable"]
         
         self.cache: Dict[str, float] = {}
         self._processing: Set[str] = set()
         self.cache_ttl = self.cfg.get("app", {}).get("cache_flush_sec", 3600)  
         
-        # ⚡ Трекеры времени для выдержки сигналов (TTL)
         self._pattern_first_seen: Dict[str, float] = {}
         self._spread_first_seen: Dict[str, float] = {}
         
@@ -61,7 +67,6 @@ class ScreenerBot:
         self.phemex_prices: Dict[str, float] = {}
         self.prices_cache_time = 0.0
         
-        # Константы из конфига
         self.target_depth = self.cfg["pattern"]["phemex"].get("depth", 8)
         self.pattern_ttl = self.cfg["pattern"]["phemex"].get("pattern_ttl_sec", 0)
         
@@ -75,9 +80,14 @@ class ScreenerBot:
     async def aclose(self):
         if self._stream:
             self._stream.stop()
+        if self.funding1_enabled: self.funding_filter1.stop()
+        if self.funding2_enabled: self.funding_filter2.stop()
+            
         await self.phemex_sym_api.aclose()
         await self.binance_ticker_api.aclose()
         await self.phemex_ticker_api.aclose()
+        await self.funding_api.aclose()
+        await self.binance_funding_api.aclose()
 
     async def update_prices_cache(self):
         now = time.time()
@@ -91,6 +101,7 @@ class ScreenerBot:
             p_prices_task = asyncio.create_task(self.phemex_ticker_api.get_all_prices())
             
             self.binance_prices, self.phemex_prices = await asyncio.gather(b_prices_task, p_prices_task)
+            logger.debug(f"Кэш горячих цен обновлен. Binance: {len(self.binance_prices)}, Phemex: {len(self.phemex_prices)}")
         except Exception as e:
             logger.error(f"Ошибка загрузки горячих цен: {e}")
             self.prices_cache_time = 0.0 
@@ -105,6 +116,7 @@ class ScreenerBot:
         phemex_hot_price = self.phemex_prices.get(symbol)
         
         if not binance_hot_price or not phemex_hot_price:
+            logger.debug(f"[{symbol}] Нет горячей цены для расчета спреда.")
             return None 
             
         spread_pct = (binance_hot_price - phemex_hot_price) / phemex_hot_price * 100       
@@ -123,7 +135,6 @@ class ScreenerBot:
     async def _process_signal(self, snap: DepthTop, sym_info: SymbolInfo):
         symbol = snap.symbol
 
-        # --- ДОБАВЛЯЕМ ЭТУ ПРОВЕРКУ ---
         if symbol in self.black_list:
             return
 
@@ -141,53 +152,58 @@ class ScreenerBot:
             bids_sliced = snap.bids[:self.target_depth]
             asks_sliced = snap.asks[:self.target_depth]
 
-            # ==========================================
-            # 1. ЛОГИКА: ПРОВЕРКА ФАКТА (БЕЗ БЛОКИРОВОК)
-            # ==========================================
+            # 1. ПАТТЕРН СТАКАНА
             signal = self.pattern_engine.analyze(bids_sliced, asks_sliced)
             if not signal:
-                # Если паттерн сломался хоть на тик - сбрасываем оба трекера
                 self._pattern_first_seen.pop(symbol, None)
                 self._spread_first_seen.pop(symbol, None)
                 return
 
+            logger.debug(f"[{symbol}] 🟢 Найден паттерн {signal['side']}! Проверяем фильтры...")
+
+            # 2. ФИЛЬТР СПРЕДА ЦЕН
             binance_check = await self.check_binance_filter(symbol, signal["side"])
             if not binance_check:
-                # Если спреда нет, сбрасываем только его трекер (паттерн может продолжать жить)
+                logger.debug(f"[{symbol}] Отбраковано: Не прошел фильтр ценового спреда.")
                 self._spread_first_seen.pop(symbol, None)
                 return
             
+            # 3. ФИЛЬТРЫ ФАНДИНГА
             funding1 = "OFF"
-            if not self.funding1_enabled:            
-                funding1 = "OFF" # подключить funding_pattern1.py то есть будем либо скипать итерацию либо возвращать последнее значение фандинга. (если enable True)
-            else:
-                if self.funding_filter1.is_running:
-                    if not self.funding_filter1.is_trade_allowed():
-                        return 
-                    
-                    funding1 = self.funding_filter1.last_fanding_val or "NONE"             
+            if self.funding1_enabled:
+                if not self.funding_filter1.is_trade_allowed(symbol):
+                    logger.debug(f"[{symbol}] Отбраковано: Блокировка Funding 1 (Phemex).")
+                    return 
+                rate = self.funding_filter1.last_funding_rates.get(symbol)
+                funding1 = f"{round(rate * 100, 4)}%" if rate is not None else "NONE"             
 
+            diff_funding2 = "OFF" 
+            if self.funding2_enabled:
+                if not self.funding_filter2.is_trade_allowed(symbol):
+                    logger.debug(f"[{symbol}] Отбраковано: Блокировка Funding 2 (Diff Binance/Phemex).")
+                    return
+                diff_val = self.funding_filter2.last_diffs.get(symbol)
+                diff_funding2 = f"{round(diff_val * 100, 4)}%" if diff_val is not None else "NONE"
 
-            diff_funding2 = "OFF" # подключить funding_pattern2.py то есть будем либо скипать итерацию либо возвращать дельту фандинга между бинансом и пхемексом. (если enable True)
-
-            # ==========================================
-            # 2. ВЫДЕРЖКА: ПАРАЛЛЕЛЬНЫЙ ОТСЧЕТ
-            # ==========================================
-            # Теперь трекеры запускаются ОДНОВРЕМЕННО, так как код не прервался раньше времени
+            # 4. TTL ВЫДЕРЖКА СИГНАЛОВ
             if self.pattern_ttl > 0:
                 first_seen_p = self._pattern_first_seen.setdefault(symbol, now)
                 if now - first_seen_p < self.pattern_ttl:
-                    return # Ждем, пока настоится паттерн
+                    logger.debug(f"[{symbol}] Паттерн настаивается (TTL)...")
+                    return 
 
             if self.spread_ttl > 0:
                 first_seen_s = self._spread_first_seen.setdefault(symbol, now)
                 if now - first_seen_s < self.spread_ttl:
-                    return # Ждем, пока настоится спред
+                    logger.debug(f"[{symbol}] Спред настаивается (TTL)...")
+                    return 
                 
+            # 5. OI DEFENDER (OIL)
             if not self.oli_enabled:
                 oil_val = "OFF"
             else:
                 improve_price = (bids_sliced[0][0] + asks_sliced[0][0]) / 2
+                logger.debug(f"[{symbol}] Пробиваем OIL на цене {improve_price}...")
                 oil_raw = await self.oli_defender.is_oil(
                     symbol=symbol,
                     price=improve_price,
@@ -199,15 +215,10 @@ class ScreenerBot:
                 elif oil_raw is False:
                     oil_val = "False"
                 else:
-                    oil_val = oil_raw  # уже строка ERR_...
+                    oil_val = oil_raw  # string ERR_...
 
-            # ==========================================
-            # 3. ВСЕ ПРОВЕРКИ И TTL ПРОЙДЕНЫ -> ОТПРАВЛЯЕМ
-            # ==========================================
-            if signal['side'] == "LONG":
-                side_visual = "🟢 LONG 📈"
-            else:
-                side_visual = "🔴 SHORT 📉"
+            # 6. ФОРМИРОВАНИЕ И ОТПРАВКА СИГНАЛА
+            side_visual = "🟢 LONG 📈" if signal['side'] == "LONG" else "🔴 SHORT 📉"
             
             b_price = binance_check['b_price']
             p_price = binance_check['p_price']            
@@ -228,7 +239,7 @@ class ScreenerBot:
                 f"Binance/Phemex diff Funding: {diff_funding2}\n"
             )
             
-            # Ставим глобальный кулдаун на монету
+            # Ставим кулдаун
             self.cache[symbol] = now
             self._pattern_first_seen.pop(symbol, None)
             self._spread_first_seen.pop(symbol, None)
@@ -245,15 +256,17 @@ class ScreenerBot:
     async def _on_depth_received(self, snap: DepthTop, sym_info: SymbolInfo):
         asyncio.create_task(self._process_signal(snap, sym_info))
 
-    async def run_funding1(self):
-        asyncio.create_task(self.funding_filter1.run())
+    async def run_funding_filters(self):
+        if self.funding1_enabled:
+            asyncio.create_task(self.funding_filter1.run())
+        if self.funding2_enabled:
+            asyncio.create_task(self.funding_filter2.run())
         await asyncio.sleep(1)
 
     async def run(self):
         logger.info("Скринер запущен. Получение символов Phemex...")
         symbols_info = await self.phemex_sym_api.get_all(quote="USDT", only_active=True)
         symbols = [s.symbol for s in symbols_info if s.symbol not in self.black_list]
-        # logger.debug(symbols)
         
         start_msg = (
             f"🤖 <b>Скринер активен (WSS)</b>\n"
@@ -266,7 +279,7 @@ class ScreenerBot:
         logger.info(start_msg)
 
         await self.update_prices_cache()
-        await self.run_funding1()
+        await self.run_funding_filters()
 
         self._stream = PhemexStakanStream(
             symbols=symbols,

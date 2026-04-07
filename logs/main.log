@@ -1,0 +1,15 @@
+2026-04-07 02:44:40 | ERROR | main | Аварийная остановка скринера: PhemexStakanStream.run() takes 2 positional arguments but 3 were given
+Traceback (most recent call last):
+  File "c:\Users\user\Desktop\My_Pro\HP_EliteBook_735\SLAV\Phemex\RUCHEIOK\RUCHEIOK_SCREENER\rucheiok_scr\main.py", line 20, in _main
+    await bot.run()
+  File "c:\Users\user\Desktop\My_Pro\HP_EliteBook_735\SLAV\Phemex\RUCHEIOK\RUCHEIOK_SCREENER\rucheiok_scr\CORE\bot.py", line 291, in run
+    await self._stream.run(self._on_depth_received, symbols_info)
+          ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: PhemexStakanStream.run() takes 2 positional arguments but 3 were given
+2026-04-07 02:44:40 | INFO | main | API коннекты закрыты. Скринер остановлен.
+2026-04-07 02:49:01 | INFO | main | Получен сигнал отмены работы скринера.
+2026-04-07 02:49:01 | INFO | main | API коннекты закрыты. Скринер остановлен.
+2026-04-07 02:51:10 | INFO | main | Получен сигнал отмены работы скринера.
+2026-04-07 02:51:10 | INFO | main | API коннекты закрыты. Скринер остановлен.
+2026-04-07 03:30:30 | INFO | main | Получен сигнал отмены работы скринера.
+2026-04-07 03:30:30 | INFO | main | API коннекты закрыты. Скринер остановлен.

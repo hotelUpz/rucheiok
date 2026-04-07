@@ -4,7 +4,7 @@
         "cache_flush_sec": 300
     },
     "log": {
-        "debug": true,
+        "debug": false,
         "info": true,
         "warning": true,
         "error": true,

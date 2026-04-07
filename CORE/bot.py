@@ -64,6 +64,7 @@ class ScreenerBot:
         
         self.binance_prices: Dict[str, float] = {}
         self.phemex_prices: Dict[str, float] = {}
+        self.symbols_info_dict: Dict[str, SymbolInfo] = {}
         self.prices_cache_time = 0.0
         
         self.target_depth = self.cfg["pattern"]["phemex"].get("depth", 8)
@@ -257,12 +258,20 @@ class ScreenerBot:
         finally:
             self._processing.discard(symbol)
 
-    async def _on_depth_received(self, snap: DepthTop, sym_info: SymbolInfo):
-        asyncio.create_task(self._process_signal(snap, sym_info))
+    async def _on_depth_received(self, snap: DepthTop):
+        sym_info = self.symbols_info_dict.get(snap.symbol)
+        if sym_info:
+            asyncio.create_task(self._process_signal(snap, sym_info))
+        else:
+            logger.debug(f"[{snap.symbol}] Не найдена спецификация (SymbolInfo) для монеты!")
 
     async def run(self):
         logger.info("Скринер запущен. Получение символов Phemex...")
         symbols_info = await self.phemex_sym_api.get_all(quote="USDT", only_active=True)
+        
+        # Кэшируем информацию о монетах для быстрого доступа в коллбеке
+        self.symbols_info_dict = {s.symbol: s for s in symbols_info}
+        
         symbols = [s.symbol for s in symbols_info if s.symbol not in self.black_list]
         
         start_msg = (
@@ -288,4 +297,4 @@ class ScreenerBot:
         )
         
         logger.info("Подключение к WSS Phemex и подписка на стаканы...")
-        await self._stream.run(self._on_depth_received, symbols_info)
+        await self._stream.run(self._on_depth_received) # УБРАЛИ ЛИШНИЙ АРГУМЕНТ ЗДЕСЬ

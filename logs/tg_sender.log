@@ -1,0 +1,67 @@
+2026-04-07 02:44:38 | INFO | tg_sender | Успешный пуш в Telegram: 🤖 <b>Скринер активен (WSS)</b>
+Биржа: Phemex Futures
+Символов: 518
+Паттерн: Ручеек (depth=8)
+2026-04-07 02:48:14 | INFO | tg_sender | Успешный пуш в Telegram: 🤖 <b>Скринер активен (WSS)</b>
+Биржа: Phemex Futures
+Символов: 518
+Паттерн: Ручеек (depth=8)
+2026-04-07 02:50:18 | INFO | tg_sender | Успешный пуш в Telegram: 🤖 <b>Скринер активен (WSS)</b>
+Биржа: Phemex Futures
+Символов: 518
+Паттерн: Ручеек (depth=8)
+2026-04-07 02:51:41 | INFO | tg_sender | Успешный пуш в Telegram: 🤖 <b>Скринер активен (WSS)</b>
+Биржа: Phemex Futures
+Символов: 518
+Паттерн: Ручеек (depth=8)
+2026-04-07 03:02:38 | INFO | tg_sender | Успешный пуш в Telegram: Монета: <b>#DRIFTUSDT</b>
+Направление: 🟢 LONG 📈
+Цена срабатывания (стакан): 0.0397
+Spread (3 уровня): 2.9219%
+Множитель (Rate): 85.33x
+
+Объем первого уровня в USDT: 794.0
+
+🔥 <b>Горячие цены:</b>
+Binance: 0.03969
+Phemex: 0.03955
+Binance/Phemex Spread_%: 0.354
+
+OIL: True
+Phemex Funding: 0.005%
+Binance/Phemex diff Funding: 0.6919%
+
+2026-04-07 03:06:01 | INFO | tg_sender | Успешный пуш в Telegram: Монета: <b>#BARDUSDT</b>
+Направление: 🟢 LONG 📈
+Цена срабатывания (стакан): 0.2962
+Spread (3 уровня): 0.2363%
+Множитель (Rate): 7.02x
+
+Объем первого уровня в USDT: 888.6
+
+🔥 <b>Горячие цены:</b>
+Binance: 0.2966
+Phemex: 0.2957
+Binance/Phemex Spread_%: 0.3044
+
+OIL: False
+Phemex Funding: -0.1615%
+Binance/Phemex diff Funding: 0.1137%
+
+2026-04-07 03:28:49 | INFO | tg_sender | Успешный пуш в Telegram: Монета: <b>#ARIAUSDT</b>
+Направление: 🟢 LONG 📈
+Цена срабатывания (стакан): 0.60365
+Spread (3 уровня): 0.2965%
+Множитель (Rate): 20.41x
+
+Объем первого уровня в USDT: 1207.3
+
+🔥 <b>Горячие цены:</b>
+Binance: 0.6047
+Phemex: 0.60288
+Binance/Phemex Spread_%: 0.3019
+
+OIL: False
+Phemex Funding: -0.062%
+Binance/Phemex diff Funding: 0.0894%
+

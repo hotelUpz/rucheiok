@@ -2,6 +2,8 @@
 # FILE: CORE/funding_manager.py
 # ROLE: Оркестратор API-вызовов и кэширования для фандингов
 # ============================================================
+from __future__ import annotations
+
 import asyncio
 import time
 from typing import Dict, Any, TYPE_CHECKING

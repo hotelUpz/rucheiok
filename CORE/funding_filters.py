@@ -2,6 +2,8 @@
 # FILE: CORE/funding_filters.py
 # ROLE: Чистая математика для фильтров фандинга (SRP)
 # ============================================================
+from __future__ import annotations
+
 from typing import Set, Dict, Any, TYPE_CHECKING
 from c_log import UnifiedLogger
 

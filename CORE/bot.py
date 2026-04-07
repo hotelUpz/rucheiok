@@ -3,7 +3,7 @@ from __future__ import annotations
 import asyncio
 import time
 import os
-from typing import Dict, Any, Set
+from typing import Dict, Any, Set, TYPE_CHECKING
 from dotenv import load_dotenv
 
 from API.PHEMEX.symbol import PhemexSymbols, SymbolInfo
@@ -18,6 +18,11 @@ from CORE.funding_manager import FundingManager
 from CORE.oil_pattern import OpenInterestDefender
 from tg_sender import TelegramSender
 from c_log import UnifiedLogger
+
+if TYPE_CHECKING:
+    from API.PHEMEX.symbol import SymbolInfo
+    from API.PHEMEX.stakan import DepthTop
+
 
 load_dotenv()
 

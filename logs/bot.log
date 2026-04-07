@@ -313,3 +313,206 @@
 2026-04-07 03:28:49 | INFO | bot | [ARIAUSDT] OIL: False.
 2026-04-07 03:28:49 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=20.41
 2026-04-07 03:30:20 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, ONTUSDT...
+2026-04-07 03:33:19 | INFO | bot | Скринер запущен. Получение символов Phemex...
+2026-04-07 03:33:19 | INFO | bot | 🤖 <b>Скринер активен (WSS)</b>
+Биржа: Phemex Futures
+Символов: 518
+Паттерн: Ручеек (depth=8)
+2026-04-07 03:33:20 | INFO | bot | 🔄 Менеджер Фандингов запущен (Интервал: 60с). Binance API включен: True
+2026-04-07 03:33:21 | INFO | bot | Подключение к WSS Phemex и подписка на стаканы...
+2026-04-07 03:33:21 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, ONTUSDT...
+2026-04-07 03:39:28 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 3 монет: DRIFTUSDT, ONTUSDT, SIRENUSDT...
+2026-04-07 03:40:31 | INFO | bot | [ARIAUSDT] 🗑️ Ордер df9a6e5c-9b48-4a1e-a4b8-b05f7fd1b9ce моментально отменен.
+2026-04-07 03:40:31 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 03:40:31 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=30.09
+2026-04-07 03:43:33 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, ONTUSDT...
+2026-04-07 03:44:34 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 3 монет: DRIFTUSDT, ONTUSDT, SIRENUSDT...
+2026-04-07 03:45:35 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, ONTUSDT...
+2026-04-07 03:50:39 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 3 монет: DRIFTUSDT, ONTUSDT, SIRENUSDT...
+2026-04-07 03:54:57 | INFO | bot | [STOUSDT] 🗑️ Ордер 3fb93949-5453-4353-995d-f1d7f8be0fad моментально отменен.
+2026-04-07 03:54:57 | INFO | bot | [STOUSDT] OIL: False.
+2026-04-07 03:54:58 | INFO | bot | [SIGNAL] STOUSDT LONG rate=15.86
+2026-04-07 03:59:51 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, ONTUSDT...
+2026-04-07 04:00:52 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 04:11:01 | INFO | bot | [ARIAUSDT] 🗑️ Ордер ed8d173f-8f01-446f-bb56-55749aaaea2a моментально отменен.
+2026-04-07 04:11:01 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 04:11:01 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=16.52
+2026-04-07 04:26:16 | INFO | bot | [TRIAUSDT] 🗑️ Ордер ef67d91e-9d2b-4010-91df-78c53fe85eb0 моментально отменен.
+2026-04-07 04:26:16 | INFO | bot | [TRIAUSDT] OIL: False.
+2026-04-07 04:26:16 | INFO | bot | [SIGNAL] TRIAUSDT LONG rate=12.06
+2026-04-07 04:26:21 | INFO | bot | [ARIAUSDT] 🗑️ Ордер e0ad18d7-6247-45d2-bd61-ad41192a7479 моментально отменен.
+2026-04-07 04:26:21 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 04:26:21 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=16.06
+2026-04-07 04:30:24 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 04:31:25 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 1 монет: DRIFTUSDT...
+2026-04-07 04:33:27 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 04:34:28 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 1 монет: DRIFTUSDT...
+2026-04-07 04:35:28 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 04:36:29 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 1 монет: DRIFTUSDT...
+2026-04-07 04:40:34 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 04:58:26 | INFO | bot | [ARIAUSDT] 🗑️ Ордер eb7e0944-2269-4b46-b978-baed2c8f53b6 моментально отменен.
+2026-04-07 04:58:26 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 04:58:26 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=18.69
+2026-04-07 05:00:54 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 05:30:21 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, ONTUSDT...
+2026-04-07 05:36:22 | INFO | bot | [ARIAUSDT] 🗑️ Ордер 928c3ff2-5419-4738-bd4d-c97367f2a689 моментально отменен.
+2026-04-07 05:36:22 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 05:36:22 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=6.43
+2026-04-07 05:36:40 | INFO | bot | [AIOUSDT] OIL: True.
+2026-04-07 05:36:40 | INFO | bot | [SIGNAL] AIOUSDT SHORT rate=19.1
+2026-04-07 05:41:31 | INFO | bot | [ARIAUSDT] 🗑️ Ордер 696d95be-76d8-46ef-99c2-058b824e4ad9 моментально отменен.
+2026-04-07 05:41:31 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 05:41:32 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=28.76
+2026-04-07 05:51:28 | INFO | bot | [ARIAUSDT] 🗑️ Ордер 71a033cc-4f32-48b2-a81a-39d47b901139 моментально отменен.
+2026-04-07 05:51:28 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 05:51:28 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=24.18
+2026-04-07 05:56:26 | INFO | bot | [TRIAUSDT] 🗑️ Ордер dbaecc48-70b3-49ce-b573-c9a0c681364f моментально отменен.
+2026-04-07 05:56:26 | INFO | bot | [TRIAUSDT] OIL: False.
+2026-04-07 05:56:26 | INFO | bot | [SIGNAL] TRIAUSDT LONG rate=12.06
+2026-04-07 06:00:56 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 06:30:24 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 19 монет: BARDUSDT, AERGOUSDT, ANIMEUSDT, HOMEUSDT, FUSDT...
+2026-04-07 06:34:28 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 20 монет: BARDUSDT, AERGOUSDT, ANIMEUSDT, HOMEUSDT, FUSDT...
+2026-04-07 06:37:31 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 21 монет: BARDUSDT, AERGOUSDT, ANIMEUSDT, HOMEUSDT, FUSDT...
+2026-04-07 06:43:36 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 20 монет: BARDUSDT, AERGOUSDT, HOMEUSDT, FUSDT, ARCUSDT...
+2026-04-07 06:49:39 | INFO | bot | [BEATUSDT] 🗑️ Ордер b1afdacf-d9df-41e3-883f-dd83793ae9df моментально отменен.
+2026-04-07 06:49:39 | INFO | bot | [BEATUSDT] OIL: False.
+2026-04-07 06:49:39 | INFO | bot | [SIGNAL] BEATUSDT SHORT rate=7.82
+2026-04-07 06:52:36 | INFO | bot | [STOUSDT] 🗑️ Ордер ce4afb61-8ecb-45ef-a693-ec4255967ae9 моментально отменен.
+2026-04-07 06:52:36 | INFO | bot | [STOUSDT] OIL: False.
+2026-04-07 06:52:36 | INFO | bot | [SIGNAL] STOUSDT LONG rate=50.38
+2026-04-07 06:54:26 | INFO | bot | [RLSUSDT] 🗑️ Ордер f9ec9383-7638-46f6-8d4f-d31dd7fb8935 моментально отменен.
+2026-04-07 06:54:26 | INFO | bot | [RLSUSDT] OIL: False.
+2026-04-07 06:54:26 | INFO | bot | [SIGNAL] RLSUSDT SHORT rate=8.97
+2026-04-07 06:58:52 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 21 монет: BARDUSDT, AERGOUSDT, BOBUSDT, HOMEUSDT, FUSDT...
+2026-04-07 07:00:54 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 07:30:29 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 07:38:38 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 3 монет: DRIFTUSDT, SIRENUSDT, BARDUSDT...
+2026-04-07 07:42:42 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 07:48:08 | INFO | bot | [APRUSDT] 🗑️ Ордер 0dee72ba-d17b-4dcc-87b6-6f8e196720a0 моментально отменен.
+2026-04-07 07:48:08 | INFO | bot | [APRUSDT] OIL: False.
+2026-04-07 07:48:08 | INFO | bot | [SIGNAL] APRUSDT LONG rate=7.88
+2026-04-07 08:00:58 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 08:01:11 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 08:01:11 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=16.75
+2026-04-07 08:05:04 | INFO | bot | [CLOUSDT] OIL: True.
+2026-04-07 08:05:04 | INFO | bot | [SIGNAL] CLOUSDT LONG rate=6.05
+2026-04-07 08:06:31 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 08:06:31 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=19.05
+2026-04-07 08:11:09 | INFO | bot | [APRUSDT] 🗑️ Ордер 6ee1296c-3d7d-4956-8069-54786370f032 моментально отменен.
+2026-04-07 08:11:09 | INFO | bot | [APRUSDT] OIL: False.
+2026-04-07 08:11:09 | INFO | bot | [SIGNAL] APRUSDT LONG rate=25.08
+2026-04-07 08:11:39 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 08:11:39 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=25.63
+2026-04-07 08:16:50 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 08:16:50 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=21.68
+2026-04-07 08:19:27 | INFO | bot | [DUSDT] 🗑️ Ордер 29c31bca-681e-4685-8c17-8cf462356da7 моментально отменен.
+2026-04-07 08:19:27 | INFO | bot | [DUSDT] OIL: False.
+2026-04-07 08:19:27 | INFO | bot | [SIGNAL] DUSDT SHORT rate=7.93
+2026-04-07 08:21:58 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 08:21:58 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=59.11
+2026-04-07 08:27:05 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 08:27:05 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=18.18
+2026-04-07 08:30:28 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 08:40:15 | INFO | bot | [DUSDT] 🗑️ Ордер 9fab5094-1b0c-4b0a-91f2-33e631378e4a моментально отменен.
+2026-04-07 08:40:15 | INFO | bot | [DUSDT] OIL: False.
+2026-04-07 08:40:15 | INFO | bot | [SIGNAL] DUSDT SHORT rate=6.61
+2026-04-07 08:58:20 | INFO | bot | [STORJUSDT] 🗑️ Ордер fe8a7743-3133-48e7-baf7-e0fff958055d моментально отменен.
+2026-04-07 08:58:20 | INFO | bot | [STORJUSDT] OIL: False.
+2026-04-07 08:58:20 | INFO | bot | [SIGNAL] STORJUSDT LONG rate=9.1
+2026-04-07 09:00:59 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 09:01:23 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 09:01:23 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=92.36
+2026-04-07 09:05:48 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 09:05:49 | INFO | bot | [SIGNAL] ESPUSDT SHORT rate=25.9
+2026-04-07 09:06:31 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 09:06:31 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=85.88
+2026-04-07 09:11:39 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 09:11:39 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=70.95
+2026-04-07 09:28:17 | INFO | bot | [AKTUSDT] 🗑️ Ордер 125f5303-e97e-4023-827f-0a8258a38f2e моментально отменен.
+2026-04-07 09:28:17 | INFO | bot | [AKTUSDT] OIL: False.
+2026-04-07 09:28:17 | INFO | bot | [SIGNAL] AKTUSDT LONG rate=12.2
+2026-04-07 09:30:26 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 09:41:07 | INFO | bot | [STOUSDT] 🗑️ Ордер 1bca6c5b-6dca-401b-a552-3417efe66ce0 моментально отменен.
+2026-04-07 09:41:07 | INFO | bot | [STOUSDT] OIL: False.
+2026-04-07 09:41:08 | INFO | bot | [SIGNAL] STOUSDT SHORT rate=26.6
+2026-04-07 09:48:06 | INFO | bot | [KERNELUSDT] 🗑️ Ордер 33b7d141-aa3d-43cf-85b3-ebff1750d5a0 моментально отменен.
+2026-04-07 09:48:06 | INFO | bot | [KERNELUSDT] OIL: False.
+2026-04-07 09:48:06 | INFO | bot | [SIGNAL] KERNELUSDT SHORT rate=6.6
+2026-04-07 09:49:39 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 09:49:40 | INFO | bot | [SIGNAL] ESPUSDT LONG rate=21.93
+2026-04-07 09:58:25 | INFO | bot | [SAHARAUSDT] 🗑️ Ордер 4e5bee23-2598-4f2c-8d6e-48e76c0682f6 моментально отменен.
+2026-04-07 09:58:25 | INFO | bot | [SAHARAUSDT] OIL: False.
+2026-04-07 09:58:25 | INFO | bot | [SIGNAL] SAHARAUSDT SHORT rate=6.97
+2026-04-07 10:00:54 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 10:13:11 | INFO | bot | [REDUSDT] 🗑️ Ордер 3a16b8f5-3c7e-4bcd-a712-5e41deee9b07 моментально отменен.
+2026-04-07 10:13:11 | INFO | bot | [REDUSDT] OIL: False.
+2026-04-07 10:13:11 | INFO | bot | [SIGNAL] REDUSDT SHORT rate=8.94
+2026-04-07 10:19:43 | INFO | bot | [BERAUSDT] 🗑️ Ордер 2fd4dcd7-03fa-49bc-b093-150c8ed9e838 моментально отменен.
+2026-04-07 10:19:43 | INFO | bot | [BERAUSDT] OIL: False.
+2026-04-07 10:19:43 | INFO | bot | [SIGNAL] BERAUSDT LONG rate=9.02
+2026-04-07 10:20:20 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 10:20:20 | INFO | bot | [SIGNAL] ESPUSDT LONG rate=12.39
+2026-04-07 10:24:48 | INFO | bot | [CLOUSDT] OIL: True.
+2026-04-07 10:24:48 | INFO | bot | [SIGNAL] CLOUSDT LONG rate=6.05
+2026-04-07 10:26:10 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 10:26:10 | INFO | bot | [SIGNAL] ESPUSDT LONG rate=16.47
+2026-04-07 10:30:25 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 35 монет: BARDUSDT, GUAUSDT, ARIAUSDT, NOMUSDT, TREEUSDT...
+2026-04-07 10:39:13 | INFO | bot | [PRLUSDT] 🗑️ Ордер 7fd77333-75e9-4f0b-922d-dd3dba2e8474 моментально отменен.
+2026-04-07 10:39:13 | INFO | bot | [PRLUSDT] OIL: False.
+2026-04-07 10:39:13 | INFO | bot | [SIGNAL] PRLUSDT LONG rate=6.03
+2026-04-07 10:39:33 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 34 монет: BARDUSDT, GUAUSDT, ARIAUSDT, NOMUSDT, TREEUSDT...
+2026-04-07 10:40:34 | INFO | bot | 💸 [Фандинг 1] Блок Phemex! Под запретом 1 монет: REDUSDT...
+2026-04-07 10:40:34 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 33 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:44:38 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 32 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:46:39 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 31 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:49:41 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 30 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:51:43 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 31 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:55:47 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 32 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:57:48 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 31 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:58:49 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 32 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 10:59:50 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 31 монет: BARDUSDT, GUAUSDT, ARIAUSDT, TREEUSDT, LAYERUSDT...
+2026-04-07 11:00:51 | INFO | bot | 💸 [Фандинг 1] Блок снят со всех монет.
+2026-04-07 11:00:51 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 11:16:29 | INFO | bot | [ZROUSDT] 🗑️ Ордер 4a60ef45-ce64-4892-9694-5548b8882b73 моментально отменен.
+2026-04-07 11:16:29 | INFO | bot | [ZROUSDT] OIL: False.
+2026-04-07 11:16:29 | INFO | bot | [SIGNAL] ZROUSDT SHORT rate=8.31
+2026-04-07 11:30:23 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 2 монет: DRIFTUSDT, BARDUSDT...
+2026-04-07 11:31:22 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 11:31:22 | INFO | bot | [SIGNAL] ESPUSDT SHORT rate=19.36
+2026-04-07 11:40:36 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 11:40:36 | INFO | bot | [SIGNAL] ESPUSDT SHORT rate=13.85
+2026-04-07 11:53:09 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 11:53:09 | INFO | bot | [SIGNAL] ESPUSDT SHORT rate=12.74
+2026-04-07 11:59:24 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 11:59:24 | INFO | bot | [SIGNAL] ESPUSDT SHORT rate=14.95
+2026-04-07 12:00:52 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 12:05:53 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 12:05:54 | INFO | bot | [SIGNAL] ESPUSDT SHORT rate=13.95
+2026-04-07 12:11:02 | INFO | bot | [ESPUSDT] OIL: True.
+2026-04-07 12:11:03 | INFO | bot | [SIGNAL] ESPUSDT SHORT rate=35.84
+2026-04-07 12:29:15 | INFO | bot | [ARIAUSDT] 🗑️ Ордер 1e66643f-000f-422a-8862-ff6d23a3e01a моментально отменен.
+2026-04-07 12:29:15 | INFO | bot | [ARIAUSDT] OIL: False.
+2026-04-07 12:29:15 | INFO | bot | [SIGNAL] ARIAUSDT LONG rate=20.73
+2026-04-07 12:30:20 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок! Под запретом 1 монет: DRIFTUSDT...
+2026-04-07 12:54:04 | INFO | bot | [POLYXUSDT] 🗑️ Ордер fd24c893-7324-4e0e-a936-5812ad8079b4 моментально отменен.
+2026-04-07 12:54:04 | INFO | bot | [POLYXUSDT] OIL: False.
+2026-04-07 12:54:04 | INFO | bot | [SIGNAL] POLYXUSDT LONG rate=10.87
+2026-04-07 12:59:56 | INFO | bot | [POLYXUSDT] 🗑️ Ордер 17b566b3-1868-498f-8ee6-76ac3c1644c5 моментально отменен.
+2026-04-07 12:59:56 | INFO | bot | [POLYXUSDT] OIL: False.
+2026-04-07 12:59:56 | INFO | bot | [SIGNAL] POLYXUSDT LONG rate=10.04
+2026-04-07 13:00:51 | INFO | bot | ⚖️ [Фандинг 2] Diff-Блок снят со всех монет.
+2026-04-07 13:05:09 | INFO | bot | [POLYXUSDT] 🗑️ Ордер 62e616b2-5165-4071-b506-c4d133efd41a моментально отменен.
+2026-04-07 13:05:09 | INFO | bot | [POLYXUSDT] OIL: False.
+2026-04-07 13:05:10 | INFO | bot | [SIGNAL] POLYXUSDT LONG rate=8.78
+2026-04-07 13:09:26 | INFO | bot | [BERAUSDT] 🗑️ Ордер 509dd454-bec6-4a20-8022-c66248cb9c55 моментально отменен.
+2026-04-07 13:09:26 | INFO | bot | [BERAUSDT] OIL: False.
+2026-04-07 13:09:26 | INFO | bot | [SIGNAL] BERAUSDT LONG rate=10.03
+2026-04-07 13:09:46 | INFO | bot | [DRIFTUSDT] OIL: True.
+2026-04-07 13:09:46 | INFO | bot | [SIGNAL] DRIFTUSDT SHORT rate=47.7
+2026-04-07 13:12:38 | INFO | bot | Скринер запущен. Получение символов Phemex...
+2026-04-07 13:12:38 | INFO | bot | 🤖 <b>Скринер активен (WSS)</b>
+Биржа: Phemex Futures
+Символов: 520
+Паттерн: Ручеек (depth=8)
+2026-04-07 13:12:40 | INFO | bot | 🔄 Менеджер Фандингов запущен (Интервал: 60с). Binance API включен: True
+2026-04-07 13:12:41 | INFO | bot | Подключение к WSS Phemex и подписка на стаканы...

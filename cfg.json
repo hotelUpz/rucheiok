@@ -22,7 +22,7 @@
             "name": "Rucheiok pattern",
             "enable": true,
             "depth": 8,
-            "min_first_row_usdt_notional": 500,
+            "min_first_row_usdt_notional": 3000,
             "header": {
                 "roc_window": 3,
                 "max_one_roc_pct": 0.5

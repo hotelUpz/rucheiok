@@ -40,8 +40,8 @@
         },
         "binance": {
             "enable": true,
-            "min_price_spread_pct": 0.1,
-            "update_prices_sec": 1.5,
+            "min_price_spread_rate": 0.6,
+            "update_prices_sec": 1.1,
             "spread_ttl_sec": 2
         },
         "oil": {

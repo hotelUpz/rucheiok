@@ -26,6 +26,7 @@ class StakanPattern:
         return None
 
     def _check_long(self, symbol: str, bids: list, asks: list) -> dict | None:
+
         ask1, bid1 = asks[0][0], bids[0][0]
         ask2, ask3 = asks[1][0], asks[2][0]
         bottom = self.cfg["bottom"]
@@ -43,7 +44,7 @@ class StakanPattern:
         if spr3_pct < bottom["min_spread_between_three_row_pct"]: 
             return None
 
-        dist_denom = ask3 - ask1
+        dist_denom = ask2 - ask1
         if dist_denom <= 0: return None
         
         dist_rate = (ask1 - bid1) / dist_denom
@@ -61,8 +62,10 @@ class StakanPattern:
         if any(r > header["max_one_roc_pct"] for r in rocs[:roc_window]):
             return None
 
-        roc_sma = sum(rocs) / len(rocs) if rocs else 0.000001
-        roc_sma = max(roc_sma, 0.000001)
+        roc_sma = sum(rocs) / len(rocs) if rocs else 0.0
+        roc_sma = max(roc_sma, 0.0)
+
+        if not roc_sma: return None
 
         rate = spr3_pct / roc_sma
         
@@ -71,7 +74,14 @@ class StakanPattern:
         if rate < self.cfg["header_to_bottom_desired_rate"]: 
             return None
 
-        return {"side": "LONG", "price": ask1, "spr3_pct": round(spr3_pct, 4), "rate": round(rate, 2), "row_vol_usdt": ask1_vol_usdt}
+        return {
+            "side": "LONG",
+            "price": ask1,
+            "spr2_pct": round(spr2_pct, 4),
+            "spr3_pct": round(spr3_pct, 4),
+            "rate": round(rate, 2),
+            "row_vol_usdt": ask1_vol_usdt
+        }
 
     def _check_short(self, symbol: str, bids: list, asks: list) -> dict | None:
         ask1, bid1 = asks[0][0], bids[0][0]
@@ -91,7 +101,7 @@ class StakanPattern:
         if spr3_pct < bottom["min_spread_between_three_row_pct"]: 
             return None
 
-        dist_denom = bid1 - bid3
+        dist_denom = bid1 - bid2
         if dist_denom <= 0: return None
         
         dist_rate = (ask1 - bid1) / dist_denom
@@ -119,4 +129,11 @@ class StakanPattern:
         if rate < self.cfg["header_to_bottom_desired_rate"]: 
             return None
 
-        return {"side": "SHORT", "price": bid1, "spr3_pct": round(spr3_pct, 4), "rate": round(rate, 2), "row_vol_usdt": bid1_vol_usdt}
+        return {
+            "side": "SHORT",
+            "price": bid1, 
+            "spr2_pct": round(spr2_pct, 4),
+            "spr3_pct": round(spr3_pct, 4),
+            "rate": round(rate, 2),
+            "row_vol_usdt": bid1_vol_usdt
+        }

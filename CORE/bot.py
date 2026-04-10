@@ -77,7 +77,7 @@ class ScreenerBot:
         
         self.binance_enabled = self.cfg["pattern"]["binance"].get("enable", True)
         self.update_prices_sec = self.cfg["pattern"]["binance"].get("update_prices_sec", 3)
-        self.min_price_spread = abs(self.cfg["pattern"]["binance"]["min_price_spread_pct"])
+        self.min_price_spread_rate = abs(self.cfg["pattern"]["binance"]["min_price_spread_rate"])
         self.spread_ttl = self.cfg["pattern"]["binance"].get("spread_ttl_sec", 0)
         
         self._stream: PhemexStakanStream | None = None
@@ -110,7 +110,7 @@ class ScreenerBot:
             logger.error(f"Ошибка загрузки горячих цен: {e}")
             self.prices_cache_time = 0.0 
 
-    async def check_binance_filter(self, symbol: str, side: str) -> dict | None:
+    async def check_binance_filter(self, symbol: str, side: str, spr2_pct: float) -> dict | None:
         if not self.binance_enabled:
             return {"passed": True, "b_price": 0.0, "p_price": 0.0, "spread": 0}
             
@@ -123,8 +123,9 @@ class ScreenerBot:
             logger.debug(f"[{symbol}] Нет горячей цены для расчета спреда.")
             return None 
             
-        spread_pct = (binance_hot_price - phemex_hot_price) / phemex_hot_price * 100       
-        passed = (spread_pct >= self.min_price_spread) if side == "LONG" else (spread_pct <= -self.min_price_spread)
+        spread_pct = (binance_hot_price - phemex_hot_price) / phemex_hot_price * 100  
+        min_spread = abs(spr2_pct * self.min_price_spread_rate)  
+        passed = (spread_pct >= min_spread) if side == "LONG" else (spread_pct <= -min_spread)
         
         if passed:
             return {"passed": True, "b_price": binance_hot_price, "p_price": phemex_hot_price, "spread": abs(spread_pct)}
@@ -166,7 +167,7 @@ class ScreenerBot:
             logger.debug(f"[{symbol}] 🟢 Найден паттерн {signal['side']}! Переход к ценовому спреду...")
 
             # 2. ФИЛЬТР СПРЕДА ЦЕН
-            binance_check = await self.check_binance_filter(symbol, signal["side"])
+            binance_check = await self.check_binance_filter(symbol, signal["side"], signal["spr2_pct"])
             if not binance_check:
                 logger.debug(f"[{symbol}] 🔴 Отбраковано: Не прошел фильтр ценового спреда (Binance vs Phemex).")
                 self._spread_first_seen.pop(symbol, None)
@@ -237,6 +238,7 @@ class ScreenerBot:
                 f"Монета: <b>#{symbol}</b>\n"
                 f"Направление: {side_visual}\n"
                 f"Цена срабатывания (стакан): {signal['price']}\n"
+                f"Spread (2 уровня): {signal['spr2_pct']}%\n"
                 f"Spread (3 уровня): {signal['spr3_pct']}%\n"
                 f"Множитель (Rate): {signal['rate']}x\n\n"
                 f"Объем первого уровня в USDT: {round(signal.get('row_vol_usdt', 0), 2) or 'none'}\n\n"
